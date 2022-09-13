@@ -1,0 +1,8 @@
+{
+  "TOKEN_SECRET": "123premantttt",
+  "DB_NAME": "seiz",
+  "DB_PASSWORD": "321",
+  "DB_USERNAME": "postgres",
+  "DB_PORT": 5432,
+  "DB_HOST": "127.0.0.1"
+}
