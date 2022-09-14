@@ -31,10 +31,11 @@ class UserDatabaseStorage(UserStorage):
         self.query = database.query
 
     async def insert(self,user: User)->bool:
-        return self.query.insert("User",{
+        res = await self.query.insert("User",{
             "username": "\'" + user.username + "\'",
             "password_hash": "\'" + user.password_hash + "\'"
         })
+        return res
 
     async def update(self, user: User)->bool:
 

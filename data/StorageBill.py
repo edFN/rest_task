@@ -22,8 +22,6 @@ class StorageBill:
 
 class BillDatabaseStorage(StorageBill):
 
-
-
     def __init__(self):
         self.query = query
 
@@ -53,9 +51,17 @@ class BillDatabaseStorage(StorageBill):
 
     async def update(self,bill: Bill) ->bool:
         is_ok = await self.query.update("Bill",f"bill_id = {bill.bill_id}", {
-            "balance": Decimal(bill.balance)
+            "balance": bill.balance.__str__()
         })
         return is_ok
+
+    async def insert(self,bill:Bill)->bool:
+        is_ok = await  self.query.insert("Bill",params={
+            "balance": bill.balance.__str__(),
+            "owner_id": bill.owner_id.__str__(),
+        })
+        return is_ok
+
 def get_bill_db_storage() -> BillDatabaseStorage:
     return BillDatabaseStorage()
 

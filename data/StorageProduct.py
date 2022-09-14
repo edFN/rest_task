@@ -46,7 +46,7 @@ class ProductDatabaseStorage(ProductStorage):
         res = await self.query.update("Product",f"product_id = {new_product.product_id}",params={
             "title": "\'"+new_product.title+"\'",
             "description": "\'"+new_product.description+"\'",
-            "price": new_product.price.__int__()
+            "price": new_product.price.__str__()
         })
         return res
 
