@@ -14,9 +14,9 @@ from utils.auth_tools import decode_token,check_authorization
 app = Sanic.get_app("App")
 
 
-class GetBiilsUserCase:
+class GetBillsUserCase:
     @app.get("/get_bills_user/<user_id>")
-    def get_bills_user(request:Request,user_id):
+    async def get_bills_user(request:Request,user_id):
         token_data = check_authorization(request)
 
         if token_data is None:
