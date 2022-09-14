@@ -7,9 +7,6 @@ class User:
     is_active: bool
 
 
-    def __init__(self,username,password_hash):
-        self.username = username
-        self.password_hash = password_hash
 
     def __init__(self,user_id,username,password_hash,is_admin,is_active):
         self.user_id = user_id
@@ -17,6 +14,10 @@ class User:
         self.password_hash = password_hash
         self.is_admin = is_admin
         self.is_active = is_active
+
+    def create(username,password_hash):
+        return User(0,username,password_hash,False,False)
+
 
     def __str__(self):
         return f"{self.user_id} {self.username} {self.password_hash}"
