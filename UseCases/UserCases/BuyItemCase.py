@@ -17,10 +17,13 @@ from sanic.response import json
 from utils.auth_tools import decode_token
 from data.StorageBill import get_bill_db_storage
 from data.StorageProduct import get_product_db_storage
-
+from data.StorageUser import get_db_storage
 from models.Bill import  Bill
 
+from utils.auth_tools import check_authorization
+
 app = Sanic.get_app("App")
+
 
 #awaites!!!
 
@@ -30,21 +33,18 @@ class BuyItemCase:
     @app.post("/buy_product/<product_id>")
     async def buy_product(request: Request, product_id):
 
-        if request.headers["Authorization"] is None:
-            return json({"err":1,"msg":"need to auth"})
-
-        authorization_split = request.headers["Authorization"].split()
-        bearer = authorization_split[0]
-        if bearer != "Bearer": return json({"err":1,"msg":"need to auth"})
-
-        token = authorization_split[1]
-
-        token_data = decode_token(token)
+        token_data = check_authorization(request)
 
         if token_data is None:
-            return json({"err": 1, "msg": "may be wrong token"})
+            return json({"err":1,"msg":"You need to auth"})
+
 
         user_id = token_data['user_id']
+
+        usr = await get_db_storage().getUser(user_id)
+
+        if not usr.is_active:
+            return json({"err":1,"msg":"user not activated"})
 
         product = await get_product_db_storage().get_product(product_id)
 

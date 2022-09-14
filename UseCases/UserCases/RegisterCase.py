@@ -33,13 +33,13 @@ class RegisterCase:
         if usr is not None: return json({"err": "1"})
 
         password_hash = hash_password(password)
-        usr = User(username,password_hash)
+        usr = User.create(username=username,password_hash=password_hash)
 
         res = await get_db_storage().insert(usr)
 
         if res:
             encode_jwt = generate_token({
-                "user": username
+                "username": username
             })
             return json({"success": 1, "url_confirm": "http://localhost:8000/confirm/" + encode_jwt})
 
